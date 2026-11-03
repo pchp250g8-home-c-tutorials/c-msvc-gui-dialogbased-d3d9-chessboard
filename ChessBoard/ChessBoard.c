@@ -109,37 +109,37 @@ INT_PTR CALLBACK HelloDirect3DDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM
         }
         break;
     case WM_ACTIVATE:
-    {
-        bActive = LOWORD(wParam);
-        break;
-    }
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hDlg, &ps);
-        // TODO: Add any drawing code that uses hdc here...
-        RenderScene();
-        EndPaint(hDlg, &ps);
-        break;
-    }
-    case WM_SIZE:
-    {
-        RECT rcPaint;
-        int width = 0, height = 0;
-        if (m_d3d9 == NULL) return FALSE;
-        if (m_d3d_Device == NULL) return FALSE;
-        GetClientRect(hDlg, &rcPaint);
-        width = rcPaint.right - rcPaint.left;
-        height = rcPaint.bottom - rcPaint.top;
-        if (width > 0 && height > 0)
         {
-            d3dpp.BackBufferWidth = width;
-            d3dpp.BackBufferHeight = height;
-            m_d3d_Device->lpVtbl->Reset(m_d3d_Device, &d3dpp);
+            bActive = LOWORD(wParam);
+            break;
         }
-        InvalidateRect(hDlg, NULL, TRUE);
-        break;
-    }
+    case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hDlg, &ps);
+            // TODO: Add any drawing code that uses hdc here...
+            RenderScene();
+            EndPaint(hDlg, &ps);
+            break;
+        }
+    case WM_SIZE:
+        {
+            RECT rcPaint;
+            int width = 0, height = 0;
+            if (m_d3d9 == NULL) return FALSE;
+            if (m_d3d_Device == NULL) return FALSE;
+            GetClientRect(hDlg, &rcPaint);
+            width = rcPaint.right - rcPaint.left;
+            height = rcPaint.bottom - rcPaint.top;
+            if (width > 0 && height > 0)
+            {
+                d3dpp.BackBufferWidth = width;
+                d3dpp.BackBufferHeight = height;
+                m_d3d_Device->lpVtbl->Reset(m_d3d_Device, &d3dpp);
+            }
+            InvalidateRect(hDlg, NULL, TRUE);
+            break;
+        }
     case WM_DESTROY:
         DestroyDirect3D();
         PostQuitMessage(0);
